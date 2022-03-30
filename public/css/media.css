@@ -1,0 +1,44 @@
+@page {
+  margin-bottom: 2cm;
+  margin-top: 2cm;
+  size: A4;
+}
+
+@media print {
+  html, body, .container {
+    width: 210mm;
+    height: 297mm;
+    font: 13pt Georgia, "Times New Roman", Times, serif;
+    line-height: 1.3;
+    background: #fff !important;
+    color: #000;
+  }
+
+  h3 {
+    color: #000;
+  }
+
+  .table td, .table th {
+    background-color: #fff !important;
+    padding: 0;
+  }
+
+  table, tr, td, th, thead, #eddigtablazat {
+    border: 1pt solid black;
+  }
+
+  #beleptd {
+    width: 4.5cm;
+  }
+
+  #nevtd {
+    width: 7.5cm;
+  }
+
+  th.tablesorter-header.tablesorter-headerUnSorted,
+  th.tablesorter-header.tablesorter-Sorted,
+  th.tablesorter-header.tablesorter-headerAsc,
+  th.tablesorter-header.tablesorter-headerDesc {
+    border: 1px solid black;
+  }
+}

@@ -1,0 +1,47 @@
+.focus {
+  background-color: #ffffff;
+  color: #aabbcc;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.tablesorter-metro-dark {
+  font-size: 14px !important;
+}
+
+.selected {
+  background-color: #f6ff00;
+  color: #fff;
+  font-weight: bold;
+}
+
+.asc:after {
+  content: "\25B2";
+}
+
+.desc:after {
+  content: "\25BC";
+}
+
+.bg-info {
+  background-color: #025E73 !important;
+}
+
+.bg-dark {
+  background-color: #022840 !important;
+}
+
+/* loading - the AJAX indicator */
+.ui-autocomplete-loading {
+  background: grey url('../images/tht19.gif') 98% no-repeat;
+  /*  background: grey url('../../images/ajax-loader.gif') 98% no-repeat;*/
+}
+
+.form-control {
+  /*background-color: #007a35;*/
+}
+
+.form-control:focus {
+  /*background-color: #02bd53;*/
+  /*color: #fff;*/
+}

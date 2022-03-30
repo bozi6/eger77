@@ -1,0 +1,57 @@
+{
+  "name": "codeigniter4/codeigniter4",
+  "type": "project",
+  "description": "The CodeIgniter framework v4",
+  "homepage": "https://codeigniter.com",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.2",
+    "ext-curl": "*",
+    "ext-intl": "*",
+    "ext-json": "*",
+    "psr/log": "^1.1",
+    "laminas/laminas-escaper": "^2.6",
+    "components/jquery": "^3.3",
+    "components/jqueryui": "^1.12",
+    "mottie/tablesorter": "^2.31",
+    "twbs/bootstrap": "^4.1",
+    "components/font-awesome": "^5.12",
+    "squizlabs/php_codesniffer": "*",
+    "kint-php/kint": "^3.3"
+  },
+  "require-dev": {
+    "codeigniter4/codeigniter4-standard": "^1.0",
+    "mikey179/vfsstream": "1.6.*",
+    "phpunit/phpunit": "^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "CodeIgniter\\": "system/"
+    }
+  },
+  "scripts": {
+    "post-update-cmd": [
+      "@composer dump-autoload",
+      "CodeIgniter\\ComposerScripts::postUpdate",
+      "bash admin/setup.sh",
+      "rm -rf public/assets/bootstrap",
+      "cp -R vendor/twbs/bootstrap/dist public/assets/bootstrap",
+      "rm -rf public/assets/jqueryui",
+      "cp -R vendor/components/jqueryui/themes/base public/assets/jquery-ui/themes/base",
+      "cp -R vendor/components/jqueryui/jquery-ui.js public/assets/jquery-ui/jquery-ui.js",
+      "rm -rf public/assets/tablesorter",
+      "cp -R vendor/mottie/tablesorter/dist public/assets/tablesorter",
+      "rm -rf public/assets/jquery",
+      "cp -R vendor/components/jquery public/assets/jquery",
+      "rm -rf public/assets/font-awesome",
+      "mkdir public/assets/font-awesome/",
+      "cp -R vendor/components/font-awesome/css public/assets/font-awesome/css",
+      "cp -R vendor/components/font-awesome/webfonts public/assets/font-awesome/webfonts"
+    ]
+  },
+  "support": {
+    "forum": "http://forum.codeigniter.com/",
+    "source": "https://github.com/codeigniter4/CodeIgniter4",
+    "slack": "https://codeigniterchat.slack.com"
+  }
+}
