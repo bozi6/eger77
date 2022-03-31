@@ -37,7 +37,7 @@ class TraceFramePlugin extends Plugin implements ValuePluginInterface
         }
 
         if (!empty($o->trace['file']) && !empty($o->trace['line'])) {
-            $header = '<var>' . $this->renderer->ideLink($o->trace['file'], (int)$o->trace['line']) . '</var> ';
+            $header = '<var>'.$this->renderer->ideLink($o->trace['file'], (int) $o->trace['line']).'</var> ';
         } else {
             $header = '<var>PHP internal call</var> ';
         }

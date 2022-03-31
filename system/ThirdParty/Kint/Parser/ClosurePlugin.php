@@ -78,7 +78,7 @@ class ClosurePlugin extends Plugin
             $statics_parsed = [];
 
             foreach ($statics as $name => &$static) {
-                $obj = Value::blank('$' . $name);
+                $obj = Value::blank('$'.$name);
                 $obj->depth = $o->depth + 1;
                 $statics_parsed[$name] = $this->parser->parse($static, $obj);
                 if (null === $statics_parsed[$name]->value) {

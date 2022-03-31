@@ -1,6 +1,6 @@
 <?php
 return [
-	'kezdTitle' => 'Táncháztalálkozó 2020',
-	'kezdHomepage' => 'Kezdőoldal.',
+    'kezdTitle' => 'Táncháztalálkozó 2022',
+    'kezdHomepage' => 'Kezdőoldal.',
 ];
 ?>

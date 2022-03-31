@@ -38,7 +38,7 @@ class SimpleXMLElementPlugin extends Plugin implements ValuePluginInterface
         $header = '';
 
         if (null !== ($s = $o->getModifiers())) {
-            $header .= '<var>' . $s . '</var> ';
+            $header .= '<var>'.$s.'</var> ';
         }
 
         if (null !== ($s = $o->getName())) {
@@ -53,14 +53,14 @@ class SimpleXMLElementPlugin extends Plugin implements ValuePluginInterface
             $s = $this->renderer->escape($s);
 
             if ($o->reference) {
-                $s = '&amp;' . $s;
+                $s = '&amp;'.$s;
             }
 
-            $header .= '<var>' . $this->renderer->escape($s) . '</var> ';
+            $header .= '<var>'.$this->renderer->escape($s).'</var> ';
         }
 
         if (null !== ($s = $o->getSize())) {
-            $header .= '(' . $this->renderer->escape($s) . ') ';
+            $header .= '('.$this->renderer->escape($s).') ';
         }
 
         if (null !== ($s = $o->getValueShort())) {
@@ -70,8 +70,8 @@ class SimpleXMLElementPlugin extends Plugin implements ValuePluginInterface
             $header .= $this->renderer->escape($s);
         }
 
-        $header = $this->renderer->renderHeaderWrapper($o, (bool)\strlen($children), $header);
+        $header = $this->renderer->renderHeaderWrapper($o, (bool) \strlen($children), $header);
 
-        return '<dl>' . $header . $children . '</dl>';
+        return '<dl>'.$header.$children.'</dl>';
     }
 }

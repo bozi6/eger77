@@ -35,22 +35,6 @@ class TracePlugin extends Plugin
     public static $blacklist = ['spl_autoload_call'];
     public static $path_blacklist = [];
 
-    protected static function normalizePaths(array $paths)
-    {
-        $normalized = [];
-
-        foreach ($paths as $path) {
-            $realpath = \realpath($path);
-            if (\is_dir($realpath)) {
-                $realpath .= DIRECTORY_SEPARATOR;
-            }
-
-            $normalized[] = $realpath;
-        }
-
-        return $normalized;
-    }
-
     public function getTypes()
     {
         return ['array'];
@@ -116,5 +100,21 @@ class TracePlugin extends Plugin
         $traceobj->addRepresentation($rep);
         $traceobj->size = \count($rep->contents);
         $o = $traceobj;
+    }
+
+    protected static function normalizePaths(array $paths)
+    {
+        $normalized = [];
+
+        foreach ($paths as $path) {
+            $realpath = \realpath($path);
+            if (\is_dir($realpath)) {
+                $realpath .= DIRECTORY_SEPARATOR;
+            }
+
+            $normalized[] = $realpath;
+        }
+
+        return $normalized;
     }
 }

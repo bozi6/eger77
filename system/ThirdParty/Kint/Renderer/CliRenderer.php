@@ -32,7 +32,7 @@ use Throwable;
 class CliRenderer extends TextRenderer
 {
     /**
-     * @var bool enable colors when Kint is run in *UNIX* command line
+     * @var bool enable colors
      */
     public static $cli_colors = true;
 
@@ -153,15 +153,6 @@ class CliRenderer extends TextRenderer
         return parent::renderTitle($o);
     }
 
-    protected function utf8ToWindows($string)
-    {
-        return \str_replace(
-            ['┌', '═', '┐', '│', '└', '─', '┘'],
-            [' ', '=', ' ', '|', ' ', '-', ' '],
-            $string
-        );
-    }
-
     public function preRender()
     {
         return PHP_EOL;
@@ -179,5 +170,14 @@ class CliRenderer extends TextRenderer
     public function escape($string, $encoding = false)
     {
         return \str_replace("\x1b", '\\x1b', $string);
+    }
+
+    protected function utf8ToWindows($string)
+    {
+        return \str_replace(
+            ['┌', '═', '┐', '│', '└', '─', '┘'],
+            [' ', '=', ' ', '|', ' ', '-', ' '],
+            $string
+        );
     }
 }

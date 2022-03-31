@@ -225,9 +225,9 @@ class RichRenderer extends Renderer
         }
 
         $children = $this->renderChildren($o);
-        $header = $this->renderHeaderWrapper($o, (bool)\strlen($children), $this->renderHeader($o));
+        $header = $this->renderHeaderWrapper($o, (bool) \strlen($children), $this->renderHeader($o));
 
-        return '<dl>' . $header . $children . '</dl>';
+        return '<dl>'.$header.$children.'</dl>';
     }
 
     public function renderNothing()
@@ -280,11 +280,11 @@ class RichRenderer extends Renderer
         $output = '';
 
         if (null !== ($s = $o->getModifiers())) {
-            $output .= '<var>' . $s . '</var> ';
+            $output .= '<var>'.$s.'</var> ';
         }
 
         if (null !== ($s = $o->getName())) {
-            $output .= '<dfn>' . $this->escape($s) . '</dfn> ';
+            $output .= '<dfn>'.$this->escape($s).'</dfn> ';
 
             if ($s = $o->getOperator()) {
                 $output .= $this->escape($s, 'ASCII').' ';
@@ -354,7 +354,7 @@ class RichRenderer extends Renderer
                     $output .= '<li>';
                 }
 
-                $output .= $this->escape($tab->getLabel()) . '</li>';
+                $output .= $this->escape($tab->getLabel()).'</li>';
             }
 
             $output .= '</ul><ul class="kint-tab-contents">';
@@ -366,7 +366,7 @@ class RichRenderer extends Renderer
                     $output .= '<li>';
                 }
 
-                $output .= $tab . '</li>';
+                $output .= $tab.'</li>';
             }
 
             $output .= '</ul>';
@@ -394,16 +394,16 @@ class RichRenderer extends Renderer
                     case 'script':
                         $output .= '<script class="kint-rich-script"';
                         if (null !== self::$js_nonce) {
-                            $output .= ' nonce="' . \htmlspecialchars(self::$js_nonce) . '"';
+                            $output .= ' nonce="'.\htmlspecialchars(self::$js_nonce).'"';
                         }
-                        $output .= '>' . $contents . '</script>';
+                        $output .= '>'.$contents.'</script>';
                         break;
                     case 'style':
                         $output .= '<style class="kint-rich-style"';
                         if (null !== self::$css_nonce) {
-                            $output .= ' nonce="' . \htmlspecialchars(self::$css_nonce) . '"';
+                            $output .= ' nonce="'.\htmlspecialchars(self::$css_nonce).'"';
                         }
-                        $output .= '>' . $contents . '</style>';
+                        $output .= '>'.$contents.'</style>';
                         break;
                     default:
                         $output .= $contents;
@@ -588,7 +588,7 @@ class RichRenderer extends Renderer
             }
 
             if ($show_contents) {
-                return '<pre>' . $this->escape($rep->contents) . "\n</pre>";
+                return '<pre>'.$this->escape($rep->contents)."\n</pre>";
             }
         }
 

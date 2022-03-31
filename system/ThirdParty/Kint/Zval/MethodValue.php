@@ -123,21 +123,21 @@ class MethodValue extends Value
         $name = \strtolower($this->name);
 
         if ('__construct' === $name) {
-            $this->access_path = 'new \\' . $parent->getType();
+            $this->access_path = 'new \\'.$parent->getType();
         } elseif ('__invoke' === $name) {
             $this->access_path = $parent->access_path;
         } elseif ('__clone' === $name) {
-            $this->access_path = 'clone ' . $parent->access_path;
+            $this->access_path = 'clone '.$parent->access_path;
             $this->showparams = false;
         } elseif ('__tostring' === $name) {
-            $this->access_path = '(string) ' . $parent->access_path;
+            $this->access_path = '(string) '.$parent->access_path;
             $this->showparams = false;
         } elseif (isset($magic[$name])) {
             $this->access_path = null;
         } elseif ($this->static) {
-            $this->access_path = '\\' . $this->owner_class . '::' . $this->name;
+            $this->access_path = '\\'.$this->owner_class.'::'.$this->name;
         } else {
-            $this->access_path = $parent->access_path . '->' . $this->name;
+            $this->access_path = $parent->access_path.'->'.$this->name;
         }
     }
 
@@ -162,7 +162,7 @@ class MethodValue extends Value
                 break;
             }
 
-            $out .= $line . ' ';
+            $out .= $line.' ';
         }
 
         if (\strlen($out)) {
@@ -183,7 +183,7 @@ class MethodValue extends Value
 
         foreach ($mods as $word) {
             if (null !== $word) {
-                $out .= $word . ' ';
+                $out .= $word.' ';
             }
         }
 
@@ -196,7 +196,7 @@ class MethodValue extends Value
     {
         if (null !== $this->access_path) {
             if ($this->showparams) {
-                return parent::getAccessPath() . '(' . $this->getParams() . ')';
+                return parent::getAccessPath().'('.$this->getParams().')';
             }
 
             return parent::getAccessPath();
@@ -219,12 +219,12 @@ class MethodValue extends Value
 
             $default = $p->getDefault();
             if ($default) {
-                $default = ' = ' . $default;
+                $default = ' = '.$default;
             }
 
             $ref = $p->reference ? '&' : '';
 
-            $out[] = $type . $ref . $p->getName() . $default;
+            $out[] = $type.$ref.$p->getName().$default;
         }
 
         return $this->paramcache = \implode(', ', $out);
@@ -248,6 +248,6 @@ class MethodValue extends Value
             $funcname = \substr($funcname, 2);
         }
 
-        return 'https://secure.php.net/' . $class . '.' . $funcname;
+        return 'https://secure.php.net/'.$class.'.'.$funcname;
     }
 }

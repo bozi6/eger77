@@ -16,22 +16,22 @@
     <div class="row d-print-none">
         <ul class="nav">
             <li class="nav-item">
-                <a class="btn nav-link p-0" id="hungarian" href="<?php echo base_url(); ?>/langsw/swl/hu"><img
+                <a class="btn nav-link p-0" id="hungarian" href="<?php echo base_url(); ?>/langsw/switchlang/hu"><img
                             alt="hunflag" width="32" height="16" src="<?php echo base_url('images/hun.png') ?>"></a>
             </li>
             <li class="nav-item">
-                <a class="btn nav-link p-0" id="english" href="<?php echo base_url(); ?>/langsw/swl/en"><img
-						alt="enusflag" width="32" height="16" src="<?php echo base_url('images/ukusa.jpg') ?>"></a>
-			</li>
-			<li class="nav-item">
-				<a class="btn nav-link p-0" id="deutsch" href="<?php echo base_url(); ?>/langsw/swl/de"><img
-						alt="germanyflag" width="32" height="16" src="<?php echo base_url('images/germany.png') ?>"></a>
-			</li>
-			<li class="nav-item">
-				<a class="btn nav-link p-0" id="arabic" href="<?php echo base_url(); ?>/langsw/swl/ar"><img
-						alt="arabicflag" width="32" height="16"
-						src="<?php echo base_url('images/arabic.png') ?>"></a>
-			</li>
-		</ul>
-	</div>
-	<?= $menu; ?>
+                <a class="btn nav-link p-0" id="english" href="<?php echo base_url(); ?>/langsw/switchlang/en"><img
+                            alt="enusflag" width="32" height="16" src="<?php echo base_url('images/ukusa.jpg') ?>"></a>
+            </li>
+            <li class="nav-item">
+                <a class="btn nav-link p-0" id="deutsch" href="<?php echo base_url(); ?>/langsw/switchlang/de"><img
+                            alt="germanyflag" width="32" height="16" src="<?php echo base_url('images/germany.png') ?>"></a>
+            </li>
+            <li class="nav-item">
+                <a class="btn nav-link p-0" id="arabic" href="<?php echo base_url(); ?>/langsw/switchlang/ar"><img
+                            alt="arabicflag" width="32" height="16"
+                            src="<?php echo base_url('images/arabic.png') ?>"></a>
+            </li>
+        </ul>
+    </div>
+    <?= $menu; ?>

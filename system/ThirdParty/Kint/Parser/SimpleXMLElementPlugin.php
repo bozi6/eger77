@@ -82,7 +82,7 @@ class SimpleXMLElementPlugin extends Plugin
         $base_obj->depth = $x->depth;
 
         if ($x->access_path) {
-            $base_obj->access_path = '(string) ' . $x->access_path;
+            $base_obj->access_path = '(string) '.$x->access_path;
         }
 
         // Attributes are strings. If we're too deep set the
@@ -97,7 +97,7 @@ class SimpleXMLElementPlugin extends Plugin
             if ($nsAttribs = $var->attributes($nsUrl)) {
                 $cleanAttribs = [];
                 foreach ($nsAttribs as $name => $attrib) {
-                    $cleanAttribs[(string)$name] = $attrib;
+                    $cleanAttribs[(string) $name] = $attrib;
                 }
 
                 if (null === $nsUrl) {
@@ -110,13 +110,13 @@ class SimpleXMLElementPlugin extends Plugin
                 } else {
                     $obj = clone $base_obj;
                     if ($obj->access_path) {
-                        $obj->access_path .= '->attributes(' . \var_export($nsAlias, true) . ', true)';
+                        $obj->access_path .= '->attributes('.\var_export($nsAlias, true).', true)';
                     }
 
                     $cleanAttribs = $this->parser->parse($cleanAttribs, $obj)->value->contents;
 
                     foreach ($cleanAttribs as $attribute) {
-                        $attribute->name = $nsAlias . ':' . $attribute->name;
+                        $attribute->name = $nsAlias.':'.$attribute->name;
                         $a->contents[] = $attribute;
                     }
                 }
@@ -141,23 +141,23 @@ class SimpleXMLElementPlugin extends Plugin
                 foreach ($nsChildren as $name => $child) {
                     $obj = new Value();
                     $obj->depth = $x->depth + 1;
-                    $obj->name = (string)$name;
+                    $obj->name = (string) $name;
                     if ($x->access_path) {
                         if (null === $nsUrl) {
-                            $obj->access_path = $x->access_path . '->children()->';
+                            $obj->access_path = $x->access_path.'->children()->';
                         } else {
-                            $obj->access_path = $x->access_path . '->children(' . \var_export($nsAlias, true) . ', true)->';
+                            $obj->access_path = $x->access_path.'->children('.\var_export($nsAlias, true).', true)->';
                         }
 
-                        if (\preg_match('/^[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]+$/', (string)$name)) {
-                            $obj->access_path .= (string)$name;
+                        if (\preg_match('/^[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]+$/', (string) $name)) {
+                            $obj->access_path .= (string) $name;
                         } else {
-                            $obj->access_path .= '{' . \var_export((string)$name, true) . '}';
+                            $obj->access_path .= '{'.\var_export((string) $name, true).'}';
                         }
 
                         if (isset($nsap[$obj->access_path])) {
                             ++$nsap[$obj->access_path];
-                            $obj->access_path .= '[' . $nsap[$obj->access_path] . ']';
+                            $obj->access_path .= '['.$nsap[$obj->access_path].']';
                         } else {
                             $nsap[$obj->access_path] = 0;
                         }
@@ -166,7 +166,7 @@ class SimpleXMLElementPlugin extends Plugin
                     $value = $this->parser->parse($child, $obj);
 
                     if ($value->access_path && 'string' === $value->type) {
-                        $value->access_path = '(string) ' . $value->access_path;
+                        $value->access_path = '(string) '.$value->access_path;
                     }
 
                     $c->contents[] = $value;
@@ -181,15 +181,15 @@ class SimpleXMLElementPlugin extends Plugin
         } else {
             $x->size = null;
 
-            if (\strlen((string)$var)) {
+            if (\strlen((string) $var)) {
                 $base_obj = new BlobValue();
                 $base_obj->depth = $x->depth + 1;
                 $base_obj->name = $x->name;
                 if ($x->access_path) {
-                    $base_obj->access_path = '(string) ' . $x->access_path;
+                    $base_obj->access_path = '(string) '.$x->access_path;
                 }
 
-                $value = (string)$var;
+                $value = (string) $var;
 
                 $s = $this->parser->parse($value, $base_obj);
                 $srep = $s->getRepresentation('contents');

@@ -45,11 +45,6 @@ class MicrotimePlugin extends Plugin
         }
     }
 
-    public static function renderJs()
-    {
-        return RichPlugin::renderJs();
-    }
-
     public function render(Value $o)
     {
         $r = $o->getRepresentation('microtime');
@@ -124,5 +119,10 @@ class MicrotimePlugin extends Plugin
         }
 
         return $out;
+    }
+
+    public static function renderJs()
+    {
+        return RichPlugin::renderJs();
     }
 }

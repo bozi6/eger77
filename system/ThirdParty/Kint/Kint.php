@@ -176,6 +176,117 @@ class Kint
         $this->renderer = $r;
     }
 
+    public function setParser(Parser $p)
+    {
+        $this->parser = $p;
+    }
+
+    public function getParser()
+    {
+        return $this->parser;
+    }
+
+    public function setRenderer(Renderer $r)
+    {
+        $this->renderer = $r;
+    }
+
+    public function getRenderer()
+    {
+        return $this->renderer;
+    }
+
+    public function setStatesFromStatics(array $statics)
+    {
+        $this->renderer->setStatics($statics);
+
+        $this->parser->setDepthLimit(isset($statics['depth_limit']) ? $statics['depth_limit'] : 0);
+        $this->parser->clearPlugins();
+
+        if (!isset($statics['plugins'])) {
+            return;
+        }
+
+        $plugins = [];
+
+        foreach ($statics['plugins'] as $plugin) {
+            if ($plugin instanceof Plugin) {
+                $plugins[] = $plugin;
+            } elseif (\is_string($plugin) && \is_subclass_of($plugin, Plugin::class)) {
+                if (!isset(static::$plugin_pool[$plugin])) {
+                    /** @psalm-suppress UnsafeInstantiation */
+                    $p = new $plugin();
+                    static::$plugin_pool[$plugin] = $p;
+                }
+                $plugins[] = static::$plugin_pool[$plugin];
+            }
+        }
+
+        $plugins = $this->renderer->filterParserPlugins($plugins);
+
+        foreach ($plugins as $plugin) {
+            $this->parser->addPlugin($plugin);
+        }
+    }
+
+    public function setStatesFromCallInfo(array $info)
+    {
+        $this->renderer->setCallInfo($info);
+
+        if (isset($info['modifiers']) && \is_array($info['modifiers']) && \in_array('+', $info['modifiers'], true)) {
+            $this->parser->setDepthLimit(0);
+        }
+
+        $this->parser->setCallerClass(isset($info['caller']['class']) ? $info['caller']['class'] : null);
+    }
+
+    /**
+     * Renders a list of vars including the pre and post renders.
+     *
+     * @param array $vars Data to dump
+     * @param array $base Base Zval\Value objects
+     *
+     * @return string
+     */
+    public function dumpAll(array $vars, array $base)
+    {
+        if (\array_keys($vars) !== \array_keys($base)) {
+            throw new InvalidArgumentException('Kint::dumpAll requires arrays of identical size and keys as arguments');
+        }
+
+        $output = $this->renderer->preRender();
+
+        if ([] === $vars) {
+            $output .= $this->renderer->renderNothing();
+        }
+
+        foreach ($vars as $key => $arg) {
+            if (!$base[$key] instanceof Value) {
+                throw new InvalidArgumentException('Kint::dumpAll requires all elements of the second argument to be Value instances');
+            }
+            $output .= $this->dumpVar($arg, $base[$key]);
+        }
+
+        $output .= $this->renderer->postRender();
+
+        return $output;
+    }
+
+    /**
+     * Dumps and renders a var.
+     *
+     * @param mixed $var  Data to dump
+     * @param Value $base Base object
+     *
+     * @return string
+     */
+    public function dumpVar(&$var, Value $base)
+    {
+        return $this->renderer->render(
+            $this->parser->parse($var, $base)
+        );
+    }
+
     /**
      * Gets all static settings at once.
      *
@@ -244,7 +355,7 @@ class Kint
      * Creates base objects given parameter info.
      *
      * @param array $params Parameters as returned from getCallInfo
-     * @param int $argc Number of arguments the helper was called with
+     * @param int   $argc   Number of arguments the helper was called with
      *
      * @return Value[] Base objects for the arguments
      */
@@ -437,17 +548,17 @@ class Kint
      *
      * Functionally equivalent to Kint::dump(1) or Kint::dump(debug_backtrace())
      *
+     * @param mixed ...$args
+     *
      * @return int|string
      */
-    public static function dump()
+    public static function dump(...$args)
     {
         if (false === static::$enabled_mode) {
             return 0;
         }
 
         Utils::normalizeAliases(static::$aliases);
-
-        $args = \func_get_args();
 
         $call_info = static::getCallInfo(static::$aliases, \debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), \count($args));
 
@@ -579,14 +690,14 @@ class Kint
                     if ($i < $argc && $i === \count($call['parameters']) - 1) {
                         for ($j = 1; $j + $i < $argc; ++$j) {
                             $call['parameters'][] = [
-                                'name' => 'array_values(' . \substr($param['name'], 3) . ')[' . $j . ']',
-                                'path' => 'array_values(' . \substr($param['path'], 3) . ')[' . $j . ']',
+                                'name' => 'array_values('.\substr($param['name'], 3).')['.$j.']',
+                                'path' => 'array_values('.\substr($param['path'], 3).')['.$j.']',
                                 'expression' => false,
                             ];
                         }
 
-                        $param['name'] = 'reset(' . \substr($param['name'], 3) . ')';
-                        $param['path'] = 'reset(' . \substr($param['path'], 3) . ')';
+                        $param['name'] = 'reset('.\substr($param['name'], 3).')';
+                        $param['path'] = 'reset('.\substr($param['path'], 3).')';
                         $param['expression'] = false;
                     } else {
                         $call['parameters'] = \array_slice($call['parameters'], 0, $i);
@@ -613,116 +724,5 @@ class Kint
         }
 
         return $return;
-    }
-
-    public function getParser()
-    {
-        return $this->parser;
-    }
-
-    public function setParser(Parser $p)
-    {
-        $this->parser = $p;
-    }
-
-    public function getRenderer()
-    {
-        return $this->renderer;
-    }
-
-    public function setRenderer(Renderer $r)
-    {
-        $this->renderer = $r;
-    }
-
-    public function setStatesFromStatics(array $statics)
-    {
-        $this->renderer->setStatics($statics);
-
-        $this->parser->setDepthLimit(isset($statics['depth_limit']) ? $statics['depth_limit'] : 0);
-        $this->parser->clearPlugins();
-
-        if (!isset($statics['plugins'])) {
-            return;
-        }
-
-        $plugins = [];
-
-        foreach ($statics['plugins'] as $plugin) {
-            if ($plugin instanceof Plugin) {
-                $plugins[] = $plugin;
-            } elseif (\is_string($plugin) && \is_subclass_of($plugin, Plugin::class)) {
-                if (!isset(static::$plugin_pool[$plugin])) {
-                    /** @psalm-suppress UnsafeInstantiation */
-                    $p = new $plugin();
-                    static::$plugin_pool[$plugin] = $p;
-                }
-                $plugins[] = static::$plugin_pool[$plugin];
-            }
-        }
-
-        $plugins = $this->renderer->filterParserPlugins($plugins);
-
-        foreach ($plugins as $plugin) {
-            $this->parser->addPlugin($plugin);
-        }
-    }
-
-    public function setStatesFromCallInfo(array $info)
-    {
-        $this->renderer->setCallInfo($info);
-
-        if (isset($info['modifiers']) && \is_array($info['modifiers']) && \in_array('+', $info['modifiers'], true)) {
-            $this->parser->setDepthLimit(0);
-        }
-
-        $this->parser->setCallerClass(isset($info['caller']['class']) ? $info['caller']['class'] : null);
-    }
-
-    /**
-     * Renders a list of vars including the pre and post renders.
-     *
-     * @param array $vars Data to dump
-     * @param array $base Base Zval\Value objects
-     *
-     * @return string
-     */
-    public function dumpAll(array $vars, array $base)
-    {
-        if (\array_keys($vars) !== \array_keys($base)) {
-            throw new InvalidArgumentException('Kint::dumpAll requires arrays of identical size and keys as arguments');
-        }
-
-        $output = $this->renderer->preRender();
-
-        if ([] === $vars) {
-            $output .= $this->renderer->renderNothing();
-        }
-
-        foreach ($vars as $key => $arg) {
-            if (!$base[$key] instanceof Value) {
-                throw new InvalidArgumentException('Kint::dumpAll requires all elements of the second argument to be Value instances');
-            }
-            $output .= $this->dumpVar($arg, $base[$key]);
-        }
-
-        $output .= $this->renderer->postRender();
-
-        return $output;
-    }
-
-    /**
-     * Dumps and renders a var.
-     *
-     * @param mixed $var Data to dump
-     * @param Value $base Base object
-     *
-     * @return string
-     */
-    public function dumpVar(&$var, Value $base)
-    {
-        return $this->renderer->render(
-            $this->parser->parse($var, $base)
-        );
     }
 }

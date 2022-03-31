@@ -35,21 +35,6 @@ class ClassStaticsPlugin extends Plugin
 {
     private static $cache = [];
 
-    private static function sort(Value $a, Value $b)
-    {
-        $sort = ((int)$a->const) - ((int)$b->const);
-        if ($sort) {
-            return $sort;
-        }
-
-        $sort = Value::sortByAccess($a, $b);
-        if ($sort) {
-            return $sort;
-        }
-
-        return InstanceValue::sortByHierarchy($a->owner_class, $b->owner_class);
-    }
-
     public function getTypes()
     {
         return ['object'];
@@ -71,7 +56,7 @@ class ClassStaticsPlugin extends Plugin
             $consts = [];
 
             foreach ($reflection->getConstants() as $name => $val) {
-                $const = Value::blank($name, '\\' . $class . '::' . $name);
+                $const = Value::blank($name, '\\'.$class.'::'.$name);
                 $const->const = true;
                 $const->depth = $o->depth + 1;
                 $const->owner_class = $class;
@@ -89,7 +74,7 @@ class ClassStaticsPlugin extends Plugin
 
         foreach ($reflection->getProperties(ReflectionProperty::IS_STATIC) as $static) {
             $prop = new Value();
-            $prop->name = '$' . $static->getName();
+            $prop->name = '$'.$static->getName();
             $prop->depth = $o->depth + 1;
             $prop->static = true;
             $prop->operator = Value::OPERATOR_STATIC;
@@ -103,7 +88,7 @@ class ClassStaticsPlugin extends Plugin
             }
 
             if ($this->parser->childHasPath($o, $prop)) {
-                $prop->access_path = '\\' . $prop->owner_class . '::' . $prop->name;
+                $prop->access_path = '\\'.$prop->owner_class.'::'.$prop->name;
             }
 
             $static->setAccessible(true);
@@ -124,5 +109,20 @@ class ClassStaticsPlugin extends Plugin
         \usort($statics->contents, ['Kint\\Parser\\ClassStaticsPlugin', 'sort']);
 
         $o->addRepresentation($statics);
+    }
+
+    private static function sort(Value $a, Value $b)
+    {
+        $sort = ((int) $a->const) - ((int) $b->const);
+        if ($sort) {
+            return $sort;
+        }
+
+        $sort = Value::sortByAccess($a, $b);
+        if ($sort) {
+            return $sort;
+        }
+
+        return InstanceValue::sortByHierarchy($a->owner_class, $b->owner_class);
     }
 }

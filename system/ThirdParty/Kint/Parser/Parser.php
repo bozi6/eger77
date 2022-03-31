@@ -65,8 +65,8 @@ class Parser
     protected $plugins = [];
 
     /**
-     * @param int $depth_limit Maximum depth to parse data
-     * @param null|string $caller Caller class name
+     * @param int         $depth_limit Maximum depth to parse data
+     * @param null|string $caller      Caller class name
      */
     public function __construct($depth_limit = 0, $caller = null)
     {
@@ -114,7 +114,7 @@ class Parser
      * Parses a variable into a Kint object structure.
      *
      * @param mixed $var The input variable
-     * @param Value $o The base object
+     * @param Value $o   The base object
      *
      * @return Value
      */
@@ -271,7 +271,7 @@ class Parser
      * Parses a string into a Kint BlobValue structure.
      *
      * @param string $var The input variable
-     * @param Value $o The base object
+     * @param Value  $o   The base object
      *
      * @return Value
      */
@@ -298,7 +298,7 @@ class Parser
      * Parses an array into a Kint object structure.
      *
      * @param array $var The input variable
-     * @param Value $o The base object
+     * @param Value $o   The base object
      *
      * @return Value
      */
@@ -363,10 +363,10 @@ class Parser
             $child->operator = Value::OPERATOR_ARRAY;
 
             if (null !== $array->access_path) {
-                if (\is_string($key) && (string)(int)$key === $key) {
-                    $child->access_path = 'array_values(' . $array->access_path . ')[' . $i . ']'; // @codeCoverageIgnore
+                if (\is_string($key) && (string) (int) $key === $key) {
+                    $child->access_path = 'array_values('.$array->access_path.')['.$i.']'; // @codeCoverageIgnore
                 } else {
-                    $child->access_path = $array->access_path . '[' . \var_export($key, true) . ']';
+                    $child->access_path = $array->access_path.'['.\var_export($key, true).']';
                 }
             }
 
@@ -391,14 +391,14 @@ class Parser
      * Parses an object into a Kint InstanceValue structure.
      *
      * @param object $var The input variable
-     * @param Value $o The base object
+     * @param Value  $o   The base object
      *
      * @return Value
      */
     private function parseObject(&$var, Value $o)
     {
         $hash = \spl_object_hash($var);
-        $values = (array)$var;
+        $values = (array) $var;
 
         $object = new InstanceValue();
         $object->transplant($o);
@@ -466,7 +466,7 @@ class Parser
 
                 // Can't dynamically add undefined properties, so no need to use var_export
                 if ($this->childHasPath($object, $child)) {
-                    $child->access_path .= $object->access_path . '->' . $child->name;
+                    $child->access_path .= $object->access_path.'->'.$child->name;
                 }
 
                 if ($this->applyPlugins($undefined, $child, self::TRIGGER_BEGIN)) {
@@ -546,7 +546,7 @@ class Parser
      * Parses a resource into a Kint ResourceValue structure.
      *
      * @param resource $var The input variable
-     * @param Value $o The base object
+     * @param Value    $o   The base object
      *
      * @return Value
      */
@@ -565,7 +565,7 @@ class Parser
      * Parses a closed resource into a Kint object structure.
      *
      * @param mixed $var The input variable
-     * @param Value $o The base object
+     * @param Value $o   The base object
      *
      * @return Value
      */
@@ -580,9 +580,9 @@ class Parser
     /**
      * Applies plugins for an object type.
      *
-     * @param mixed $var variable
-     * @param Value $o Kint object parsed so far
-     * @param int $trigger The trigger to check for the plugins
+     * @param mixed $var     variable
+     * @param Value $o       Kint object parsed so far
+     * @param int   $trigger The trigger to check for the plugins
      *
      * @return bool Continue parsing
      */

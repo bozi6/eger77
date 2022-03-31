@@ -6,10 +6,8 @@ namespace Laminas\Escaper;
 
 use function bin2hex;
 use function ctype_digit;
-use function function_exists;
 use function hexdec;
 use function htmlspecialchars;
-use function iconv;
 use function in_array;
 use function mb_convert_encoding;
 use function ord;
@@ -38,7 +36,7 @@ class Escaper
      * entities that XML supports. Using HTML entities would result in this error:
      *     XML Parsing Error: undefined entity
      *
-     * @var array
+     * @var array<int, string>
      */
     protected static $htmlNamedEntityMap = [
         34 => 'quot', // quotation mark
@@ -67,6 +65,7 @@ class Escaper
      * Static Matcher which escapes characters for HTML Attribute contexts
      *
      * @var callable
+     * @psalm-var callable(array<array-key, string>):string
      */
     protected $htmlAttrMatcher;
 
@@ -74,6 +73,7 @@ class Escaper
      * Static Matcher which escapes characters for Javascript contexts
      *
      * @var callable
+     * @psalm-var callable(array<array-key, string>):string
      */
     protected $jsMatcher;
 
@@ -81,6 +81,7 @@ class Escaper
      * Static Matcher which escapes characters for CSS Attribute contexts
      *
      * @var callable
+     * @psalm-var callable(array<array-key, string>):string
      */
     protected $cssMatcher;
 
@@ -142,7 +143,7 @@ class Escaper
             }
 
             $encoding = strtolower($encoding);
-            if (!in_array($encoding, $this->supportedEncodings)) {
+            if (! in_array($encoding, $this->supportedEncodings)) {
                 throw new Exception\InvalidArgumentException(
                     'Value of \'' . $encoding . '\' passed to ' . static::class
                     . ' constructor parameter is invalid. Provide an encoding supported by htmlspecialchars()'
@@ -159,6 +160,16 @@ class Escaper
         $this->htmlAttrMatcher = [$this, 'htmlAttrMatcher'];
         $this->jsMatcher       = [$this, 'jsMatcher'];
         $this->cssMatcher      = [$this, 'cssMatcher'];
+    }
+
+    /**
+     * Return the encoding that all output/input is expected to be encoded in.
+     *
+     * @return string
+     */
+    public function getEncoding()
+    {
+        return $this->encoding;
     }
 
     /**
@@ -188,96 +199,6 @@ class Escaper
 
         $result = preg_replace_callback('/[^a-z0-9,\.\-_]/iSu', $this->htmlAttrMatcher, $string);
         return $this->fromUtf8($result);
-    }
-
-    /**
-     * Converts a string to UTF-8 from the base encoding. The base encoding is set via this
-     *
-     * @param string $string
-     * @throws Exception\RuntimeException
-     * @return string
-     */
-    protected function toUtf8($string)
-    {
-        if ($this->getEncoding() === 'utf-8') {
-            $result = $string;
-        } else {
-            $result = $this->convertEncoding($string, 'UTF-8', $this->getEncoding());
-        }
-
-        if (! $this->isUtf8($result)) {
-            throw new Exception\RuntimeException(
-                sprintf('String to be escaped was not valid UTF-8 or could not be converted: %s', $result)
-            );
-        }
-
-        return $result;
-    }
-
-    /**
-     * Return the encoding that all output/input is expected to be encoded in.
-     *
-     * @return string
-     */
-    public function getEncoding()
-    {
-        return $this->encoding;
-    }
-
-    /**
-     * Encoding conversion helper which wraps iconv and mbstring where they exist or throws
-     * and exception where neither is available.
-     *
-     * @param string $string
-     * @param string $to
-     * @param array|string $from
-     * @throws Exception\RuntimeException
-     * @return string
-     */
-    protected function convertEncoding($string, $to, $from)
-    {
-        if (function_exists('iconv')) {
-            $result = iconv($from, $to, $string);
-        } elseif (function_exists('mb_convert_encoding')) {
-            $result = mb_convert_encoding($string, $to, $from);
-        } else {
-            throw new Exception\RuntimeException(
-                static::class
-                . ' requires either the iconv or mbstring extension to be installed'
-                . ' when escaping for non UTF-8 strings.'
-            );
-        }
-
-        if ($result === false) {
-            return ''; // return non-fatal blank string on encoding errors from users
-        }
-        return $result;
-    }
-
-    /**
-     * Checks if a given string appears to be valid UTF-8 or not.
-     *
-     * @param string $string
-     * @return bool
-     */
-    protected function isUtf8($string)
-    {
-        return $string === '' || preg_match('/^./su', $string);
-    }
-
-    /**
-     * Converts a string from UTF-8 to the base encoding. The base encoding is set via this
-     *
-     * @param string $string
-     * @return string
-     */
-    protected function fromUtf8($string)
-    {
-        if ($this->getEncoding() === 'utf-8') {
-            return $string;
-        }
-
-        return $this->convertEncoding($string, $this->getEncoding(), 'UTF-8');
     }
 
     /**
@@ -335,7 +256,7 @@ class Escaper
      * Callback function for preg_replace_callback that applies HTML Attribute
      * escaping to all matches.
      *
-     * @param array $matches
+     * @param array<array-key, string> $matches
      * @return string
      */
     protected function htmlAttrMatcher($matches)
@@ -382,7 +303,7 @@ class Escaper
      * Callback function for preg_replace_callback that applies Javascript
      * escaping to all matches.
      *
-     * @param array $matches
+     * @param array<array-key, string> $matches
      * @return string
      */
     protected function jsMatcher($matches)
@@ -397,7 +318,7 @@ class Escaper
             return sprintf('\\u%04s', $hex);
         }
         $highSurrogate = substr($hex, 0, 4);
-        $lowSurrogate = substr($hex, 4, 4);
+        $lowSurrogate  = substr($hex, 4, 4);
         return sprintf('\\u%04s\\u%04s', $highSurrogate, $lowSurrogate);
     }
 
@@ -405,7 +326,7 @@ class Escaper
      * Callback function for preg_replace_callback that applies CSS
      * escaping to all matches.
      *
-     * @param array $matches
+     * @param array<array-key, string> $matches
      * @return string
      */
     protected function cssMatcher($matches)
@@ -418,5 +339,74 @@ class Escaper
             $ord = hexdec(bin2hex($chr));
         }
         return sprintf('\\%X ', $ord);
+    }
+
+    /**
+     * Converts a string to UTF-8 from the base encoding. The base encoding is set via this
+     *
+     * @param string $string
+     * @throws Exception\RuntimeException
+     * @return string
+     */
+    protected function toUtf8($string)
+    {
+        if ($this->getEncoding() === 'utf-8') {
+            $result = $string;
+        } else {
+            $result = $this->convertEncoding($string, 'UTF-8', $this->getEncoding());
+        }
+
+        if (! $this->isUtf8($result)) {
+            throw new Exception\RuntimeException(
+                sprintf('String to be escaped was not valid UTF-8 or could not be converted: %s', $result)
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * Converts a string from UTF-8 to the base encoding. The base encoding is set via this
+     *
+     * @param string $string
+     * @return string
+     */
+    protected function fromUtf8($string)
+    {
+        if ($this->getEncoding() === 'utf-8') {
+            return $string;
+        }
+
+        return $this->convertEncoding($string, $this->getEncoding(), 'UTF-8');
+    }
+
+    /**
+     * Checks if a given string appears to be valid UTF-8 or not.
+     *
+     * @param string $string
+     * @return bool
+     */
+    protected function isUtf8($string)
+    {
+        return $string === '' || preg_match('/^./su', $string);
+    }
+
+    /**
+     * Encoding conversion helper which wraps mb_convert_encoding
+     *
+     * @param string $string
+     * @param string $to
+     * @param array|string $from
+     * @return string
+     */
+    protected function convertEncoding($string, $to, $from)
+    {
+        $result = mb_convert_encoding($string, $to, $from);
+
+        if ($result === false) {
+            return ''; // return non-fatal blank string on encoding errors from users
+        }
+
+        return $result;
     }
 }

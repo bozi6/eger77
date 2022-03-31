@@ -31,6 +31,6 @@ class DepthLimitPlugin extends Plugin implements ValuePluginInterface
 {
     public function renderValue(Value $o)
     {
-        return '<dl>' . $this->renderLockedHeader($o, '<var>Depth Limit</var>') . '</dl>';
+        return '<dl>'.$this->renderLockedHeader($o, '<var>Depth Limit</var>').'</dl>';
     }
 }

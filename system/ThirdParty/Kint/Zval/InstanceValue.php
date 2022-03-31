@@ -34,6 +34,23 @@ class InstanceValue extends Value
     public $startline;
     public $hints = ['object'];
 
+    public function getType()
+    {
+        return $this->classname;
+    }
+
+    public function transplant(Value $old)
+    {
+        parent::transplant($old);
+
+        if ($old instanceof self) {
+            $this->classname = $old->classname;
+            $this->spl_object_hash = $old->spl_object_hash;
+            $this->filename = $old->filename;
+            $this->startline = $old->startline;
+        }
+    }
+
     public static function sortByHierarchy($a, $b)
     {
         if (\is_string($a) && \is_string($b)) {
@@ -57,22 +74,5 @@ class InstanceValue extends Value
         }
 
         return 0;
-    }
-
-    public function getType()
-    {
-        return $this->classname;
-    }
-
-    public function transplant(Value $old)
-    {
-        parent::transplant($old);
-
-        if ($old instanceof self) {
-            $this->classname = $old->classname;
-            $this->spl_object_hash = $old->spl_object_hash;
-            $this->filename = $old->filename;
-            $this->startline = $old->startline;
-        }
     }
 }

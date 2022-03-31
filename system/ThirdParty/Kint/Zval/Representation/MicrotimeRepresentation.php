@@ -46,8 +46,8 @@ class MicrotimeRepresentation extends Representation
     {
         parent::__construct('Microtime');
 
-        $this->seconds = (int)$seconds;
-        $this->microseconds = (int)$microseconds;
+        $this->seconds = (int) $seconds;
+        $this->microseconds = (int) $microseconds;
 
         $this->group = $group;
         $this->lap = $lap;
@@ -66,6 +66,6 @@ class MicrotimeRepresentation extends Representation
 
     public function getDateTime()
     {
-        return DateTime::createFromFormat('U u', $this->seconds . ' ' . \str_pad($this->microseconds, 6, '0', STR_PAD_LEFT));
+        return DateTime::createFromFormat('U u', $this->seconds.' '.\str_pad($this->microseconds, 6, '0', STR_PAD_LEFT));
     }
 }

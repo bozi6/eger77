@@ -89,7 +89,7 @@ class ParameterValue extends Value
 
     public function getName()
     {
-        return '$' . $this->name;
+        return '$'.$this->name;
     }
 
     public function getDefault()

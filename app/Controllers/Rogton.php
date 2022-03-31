@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -27,71 +28,70 @@ class Rogton extends AlapController
 	 *
 	 */
 	public function index()
-	{
-		$csopmod = new karModell();
-		$menu = new karszMenu();
-		$okos = new okoska();
-		$data = [
-			'csoplist' => $csopmod->csoplist(),
-			'menu' => $menu->show_menu(5),
-			'nyelv' => $_SESSION['site_lang'],
-			'okos' => $okos->okos(),
-			'jsoldal' => 'rogton',
-			'kesz' => '&nbsp;',
-		];
+    {
+        $csopmod = new karModell();
+        $fomenu = new karszMenu();
+        $jotanacs = new okoska();
+        $adatok = [
+            'csoplist' => $csopmod->csoplist(),
+            'menu' => $fomenu->show_menu(5),
+            'nyelv' => $_SESSION['site_lang'],
+            'okos' => $jotanacs->okos(),
+            'jsoldal' => 'rogton',
+            'kesz' => '&nbsp;',
+        ];
 
-		echo view('sablonok/header.php', $data);
-		echo view('sablonok/logo.php', $data);
-		echo view('/rogton/rogton', $data);
-		echo view('sablonok/footer.php', $data);
-	}
+        echo view('sablonok/header.php', $adatok);
+        echo view('sablonok/logo.php', $adatok);
+        echo view('/rogton/rogton', $adatok);
+        echo view('sablonok/footer.php', $adatok);
+    }
 
 	public function belepes()
-	{
-		$csopmod = new karModell();
-		$model = new nowModell();
-		$okos = new okoska();
-		$menu = new karszMenu(5);
-		$nev = $this->request->getPost('nev');
-		$karsznum = $this->request->getPost('karsznum');
-		$tarsulat = $this->request->getPost('csoportok');
-		$megjegy = $this->request->getPost('megjegy');
-		if ($nev === "") {
-			$nev = 'Ismeretlen Szereplő';
-		}
-		if ($karsznum === "") {
-			$karsznum = 1;
-		}
-		if ($tarsulat === "") {
-			$tarsulat = 1000;
-		}
-		$data = [];
-		for ($i = 1; $i <= $karsznum; $i++) {
-			$data[$i] = [
-				'cegnev' => $tarsulat,
-				'nev' => $nev,
-				'megjegyzes' => $megjegy,
-				'belepett' => 1,
-				'miko' => date('Y-m-d H:i:s'),
-			];
-		}
-		//d($data);
-		$adatok = [
-			'csoplist' => $csopmod->csoplist(),
-			'menu' => $menu->show_menu(5),
-			'nyelv' => $_SESSION['site_lang'],
-			'okos' => $okos->okos(),
-			'jsoldal' => 'rogton',
-		];
-		if ($model->hozzaad($data) === null)
-		{
-			$adatok['kesz'] = 'Sikerült a belépés!';
-		}
-		else
-			$adatok['kesz'] = 'Gebaßierung van!';
-		echo view('sablonok/header.php', $adatok);
-		echo view('sablonok/logo.php', $adatok);
-		echo view('/rogton/rogton', $adatok);
-		echo view('sablonok/footer.php', $adatok);
-	}
+    {
+        $csopmod = new karModell();
+        $model = new nowModell();
+        $jotanacs = new okoska();
+        $fomenu = new karszMenu(5);
+        $belepnev = $this->request->getPost('nev');
+        $karsznum = $this->request->getPost('karsznum');
+        $gykarsznum = $this->request->getPost('karszgynum');
+        $tarsulat = $this->request->getPost('csoportok');
+        $megjegy = $this->request->getPost('megjegy');
+        if ($belepnev === "") {
+            $belepnev = 'Ismeretlen Szereplő';
+        }
+        if ($karsznum === "") {
+            $karsznum = 1;
+        }
+        if ($tarsulat === "") {
+            $tarsulat = 1000;
+        }
+        $beadatok = [];
+        $beadatok[0] = [
+            'cegnev' => $tarsulat,
+            'nev' => $belepnev,
+            'megjegyzes' => $megjegy,
+            'belepett' => 1,
+            'miko' => date('Y-m-d H:i:s'),
+            'szdarab' => $karsznum,
+            'gyszdarab' => $gykarsznum,
+        ];
+        //d($data);
+        $oldaladatok = [
+            'csoplist' => $csopmod->csoplist(),
+            'menu' => $fomenu->show_menu(5),
+            'nyelv' => $_SESSION['site_lang'],
+            'okos' => $jotanacs->okos(),
+            'jsoldal' => 'rogton',
+        ];
+        if ($model->hozzaad($beadatok) === null) {
+            $oldaladatok['kesz'] = 'Sikerült a belépés!';
+        } else
+            $oldaladatok['kesz'] = 'Gebaßierung van!';
+        echo view('sablonok/header.php', $oldaladatok);
+        echo view('sablonok/logo.php', $oldaladatok);
+        echo view('/rogton/rogton', $oldaladatok);
+        echo view('sablonok/footer.php', $oldaladatok);
+    }
 }

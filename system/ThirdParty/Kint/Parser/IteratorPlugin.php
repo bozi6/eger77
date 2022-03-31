@@ -67,8 +67,8 @@ class IteratorPlugin extends Plugin
         foreach (self::$blacklist as $class) {
             if ($var instanceof $class) {
                 $b = new Value();
-                $b->name = $class . ' Iterator Contents';
-                $b->access_path = 'iterator_to_array(' . $o->access_path . ', true)';
+                $b->name = $class.' Iterator Contents';
+                $b->access_path = 'iterator_to_array('.$o->access_path.', true)';
                 $b->depth = $o->depth + 1;
                 $b->hints[] = 'blacklist';
 

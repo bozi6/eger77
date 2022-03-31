@@ -31,6 +31,6 @@ class RecursionPlugin extends Plugin implements ValuePluginInterface
 {
     public function renderValue(Value $o)
     {
-        return '<dl>' . $this->renderLockedHeader($o, '<var>Recursion</var>') . '</dl>';
+        return '<dl>'.$this->renderLockedHeader($o, '<var>Recursion</var>').'</dl>';
     }
 }

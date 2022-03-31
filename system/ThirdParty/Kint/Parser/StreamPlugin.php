@@ -62,7 +62,7 @@ class StreamPlugin extends Plugin
         $base_obj->depth = $o->depth;
 
         if ($o->access_path) {
-            $base_obj->access_path = 'stream_get_meta_data(' . $o->access_path . ')';
+            $base_obj->access_path = 'stream_get_meta_data('.$o->access_path.')';
         }
 
         $rep->contents = $this->parser->parse($meta, $base_obj);

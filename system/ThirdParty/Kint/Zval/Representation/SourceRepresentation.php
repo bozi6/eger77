@@ -51,9 +51,9 @@ class SourceRepresentation extends Representation
     /**
      * Gets section of source code.
      *
-     * @param string $filename Full path to file
-     * @param int $start_line The first line to display (1 based)
-     * @param null|int $length Amount of lines to show
+     * @param string   $filename   Full path to file
+     * @param int      $start_line The first line to display (1 based)
+     * @param null|int $length     Amount of lines to show
      *
      * @return null|array
      */

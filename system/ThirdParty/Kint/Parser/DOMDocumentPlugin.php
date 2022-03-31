@@ -127,7 +127,7 @@ class DOMDocumentPlugin extends Plugin
         // Make empty iterator representation since we need it in DOMNode to point out depth limits
         if ($this->parser->getDepthLimit() && $o->depth + 1 >= $this->parser->getDepthLimit()) {
             $b = new Value();
-            $b->name = $o->classname . ' Iterator Contents';
+            $b->name = $o->classname.' Iterator Contents';
             $b->access_path = 'iterator_to_array('.$o->access_path.')';
             $b->depth = $o->depth + 1;
             $b->hints[] = 'depth_limit';
@@ -155,7 +155,7 @@ class DOMDocumentPlugin extends Plugin
                     //
                     // Contrary to the PHP docs, getNamedItemNS takes null
                     // as a namespace argument for an unnamespaced item.
-                    $base_obj->access_path = $o->access_path . '->getNamedItemNS(';
+                    $base_obj->access_path = $o->access_path.'->getNamedItemNS(';
                     $base_obj->access_path .= \var_export($item->namespaceURI, true);
                     $base_obj->access_path .= ', ';
                     $base_obj->access_path .= \var_export($item->name, true);
@@ -286,9 +286,9 @@ class DOMDocumentPlugin extends Plugin
             $base_obj->access_path = $o->access_path;
 
             if (\preg_match('/^[A-Za-z0-9_]+$/', $base_obj->name)) {
-                $base_obj->access_path .= '->' . $base_obj->name;
+                $base_obj->access_path .= '->'.$base_obj->name;
             } else {
-                $base_obj->access_path .= '->{' . \var_export($base_obj->name, true) . '}';
+                $base_obj->access_path .= '->{'.\var_export($base_obj->name, true).'}';
             }
         }
 

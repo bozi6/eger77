@@ -31,6 +31,6 @@ class ArrayLimitPlugin extends Plugin implements ValuePluginInterface
 {
     public function renderValue(Value $o)
     {
-        return '<dl>' . $this->renderLockedHeader($o, '<var>Array Limit</var>') . '</dl>';
+        return '<dl>'.$this->renderLockedHeader($o, '<var>Array Limit</var>').'</dl>';
     }
 }

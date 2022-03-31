@@ -155,7 +155,7 @@ class TextRenderer extends Renderer
 
     public function renderTitle(Value $o)
     {
-        $name = (string)$o->getName();
+        $name = (string) $o->getName();
 
         if (self::$decorations) {
             return $this->boxText($name, $this->header_width);

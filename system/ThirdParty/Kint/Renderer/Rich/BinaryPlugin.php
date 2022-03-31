@@ -40,13 +40,13 @@ class BinaryPlugin extends Plugin implements TabPluginInterface
         $lines = \str_split($r->contents, self::$line_length);
 
         foreach ($lines as $index => $line) {
-            $out .= \sprintf('%08X', $index * self::$line_length) . ":\t";
+            $out .= \sprintf('%08X', $index * self::$line_length).":\t";
 
             /** @var string[] Psalm bug workaround */
             $chunks = \str_split(\str_pad(\bin2hex($line), 2 * self::$line_length, ' '), self::$chunk_length);
 
             $out .= \implode(' ', $chunks);
-            $out .= "\t" . \preg_replace('/[^\\x20-\\x7E]/', '.', $line) . "\n";
+            $out .= "\t".\preg_replace('/[^\\x20-\\x7E]/', '.', $line)."\n";
         }
 
         $out .= '</pre>';

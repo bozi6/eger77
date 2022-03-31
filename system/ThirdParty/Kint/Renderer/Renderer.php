@@ -38,62 +38,9 @@ abstract class Renderer
     protected $statics = [];
     protected $show_trace = true;
 
-    public static function sortPropertiesFull(Value $a, Value $b)
-    {
-        $sort = Value::sortByAccess($a, $b);
-        if ($sort) {
-            return $sort;
-        }
-
-        $sort = Value::sortByName($a, $b);
-        if ($sort) {
-            return $sort;
-        }
-
-        return InstanceValue::sortByHierarchy($a->owner_class, $b->owner_class);
-    }
-
-    /**
-     * Sorts an array of Value.
-     *
-     * @param Value[] $contents Object properties to sort
-     * @param int $sort
-     *
-     * @return Value[]
-     */
-    public static function sortProperties(array $contents, $sort)
-    {
-        switch ($sort) {
-            case self::SORT_VISIBILITY:
-                // Containers to quickly stable sort by type
-                $containers = [
-                    Value::ACCESS_PUBLIC => [],
-                    Value::ACCESS_PROTECTED => [],
-                    Value::ACCESS_PRIVATE => [],
-                    Value::ACCESS_NONE => [],
-                ];
-
-                foreach ($contents as $item) {
-                    $containers[$item->access][] = $item;
-                }
-
-                return \call_user_func_array('array_merge', $containers);
-            case self::SORT_FULL:
-                \usort($contents, ['Kint\\Renderer\\Renderer', 'sortPropertiesFull']);
-                // no break
-            default:
-                return $contents;
-        }
-    }
-
     abstract public function render(Value $o);
 
     abstract public function renderNothing();
-
-    public function getCallInfo()
-    {
-        return $this->call_info;
-    }
 
     public function setCallInfo(array $info)
     {
@@ -126,9 +73,9 @@ abstract class Renderer
         ];
     }
 
-    public function getStatics()
+    public function getCallInfo()
     {
-        return $this->statics;
+        return $this->call_info;
     }
 
     public function setStatics(array $statics)
@@ -137,14 +84,19 @@ abstract class Renderer
         $this->setShowTrace(!empty($statics['display_called_from']));
     }
 
-    public function getShowTrace()
+    public function getStatics()
     {
-        return $this->show_trace;
+        return $this->statics;
     }
 
     public function setShowTrace($show_trace)
     {
         $this->show_trace = $show_trace;
+    }
+
+    public function getShowTrace()
+    {
+        return $this->show_trace;
     }
 
     /**
@@ -181,5 +133,53 @@ abstract class Renderer
     public function postRender()
     {
         return '';
+    }
+
+    public static function sortPropertiesFull(Value $a, Value $b)
+    {
+        $sort = Value::sortByAccess($a, $b);
+        if ($sort) {
+            return $sort;
+        }
+
+        $sort = Value::sortByName($a, $b);
+        if ($sort) {
+            return $sort;
+        }
+
+        return InstanceValue::sortByHierarchy($a->owner_class, $b->owner_class);
+    }
+
+    /**
+     * Sorts an array of Value.
+     *
+     * @param Value[] $contents Object properties to sort
+     * @param int     $sort
+     *
+     * @return Value[]
+     */
+    public static function sortProperties(array $contents, $sort)
+    {
+        switch ($sort) {
+            case self::SORT_VISIBILITY:
+                // Containers to quickly stable sort by type
+                $containers = [
+                    Value::ACCESS_PUBLIC => [],
+                    Value::ACCESS_PROTECTED => [],
+                    Value::ACCESS_PRIVATE => [],
+                    Value::ACCESS_NONE => [],
+                ];
+
+                foreach ($contents as $item) {
+                    $containers[$item->access][] = $item;
+                }
+
+                return \call_user_func_array('array_merge', $containers);
+            case self::SORT_FULL:
+                \usort($contents, ['Kint\\Renderer\\Renderer', 'sortPropertiesFull']);
+                // no break
+            default:
+                return $contents;
+        }
     }
 }

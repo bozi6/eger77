@@ -31,6 +31,6 @@ class BlacklistPlugin extends Plugin implements ValuePluginInterface
 {
     public function renderValue(Value $o)
     {
-        return '<dl>' . $this->renderLockedHeader($o, '<var>Blacklisted</var>') . '</dl>';
+        return '<dl>'.$this->renderLockedHeader($o, '<var>Blacklisted</var>').'</dl>';
     }
 }

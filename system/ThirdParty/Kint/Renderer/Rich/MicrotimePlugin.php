@@ -31,11 +31,6 @@ use Kint\Zval\Representation\Representation;
 
 class MicrotimePlugin extends Plugin implements TabPluginInterface
 {
-    public static function renderJs()
-    {
-        return \file_get_contents(KINT_DIR.'/resources/compiled/microtime.js');
-    }
-
     public function renderTab(Representation $r)
     {
         if (!($r instanceof MicrotimeRepresentation)) {
@@ -64,5 +59,10 @@ class MicrotimePlugin extends Plugin implements TabPluginInterface
         $out .= ' (real '.\round($bytes['value'], 3).' '.$bytes['unit'].')';
 
         return '<pre data-kint-microtime-group="'.$r->group.'">'.$out.'</pre>';
+    }
+
+    public static function renderJs()
+    {
+        return \file_get_contents(KINT_DIR.'/resources/compiled/microtime.js');
     }
 }

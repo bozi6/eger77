@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -17,6 +18,9 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
+/**
+ * Mindennek az alapja
+ */
 class AlapController extends Controller
 {
 

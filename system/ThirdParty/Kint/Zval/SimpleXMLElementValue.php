@@ -42,7 +42,7 @@ class SimpleXMLElementValue extends InstanceValue
     public function getValueShort()
     {
         if ($this->is_string_value && ($rep = $this->value) && 'contents' === $rep->getName() && 'string' === \gettype($rep->contents)) {
-            return '"' . $rep->contents . '"';
+            return '"'.$rep->contents.'"';
         }
     }
 }

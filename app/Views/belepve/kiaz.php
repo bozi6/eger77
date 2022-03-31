@@ -1,8 +1,8 @@
 <div class="form-group col-md-12">
     <?php $arg = ['class' => 'd-print-none control-label m-0']; ?>
-    <?php echo form_label(lang('Kiaz.kiazNev'), 'eddig', $arg); ?>:
+    <?php echo form_label(lang('Kiaz.kiazNev', [], $nyelv), 'eddig', $arg); ?>:
     <input type="text" name="nev" id="eddig" class="form-control d-print-none"
-           placeholder="<?= lang('Kiaz.kiazBelNevCsak'); ?>">
+           placeholder="<?= lang('Kiaz.kiazBelNevCsak', [], $nyelv); ?>">
 </div>
 <div class="row">
     <table class="table-dark table-striped table-sm" id="eddigtablazat">

@@ -43,6 +43,45 @@ class XmlPlugin extends Plugin
      */
     public static $parse_method = 'SimpleXML';
 
+    public function getTypes()
+    {
+        return ['string'];
+    }
+
+    public function getTriggers()
+    {
+        return Parser::TRIGGER_SUCCESS;
+    }
+
+    public function parse(&$var, Value &$o, $trigger)
+    {
+        if ('<?xml' !== \substr($var, 0, 5)) {
+            return;
+        }
+
+        if (!\method_exists(\get_class($this), 'xmlTo'.self::$parse_method)) {
+            return;
+        }
+
+        $xml = \call_user_func([\get_class($this), 'xmlTo'.self::$parse_method], $var, $o->access_path);
+
+        if (empty($xml)) {
+            return;
+        }
+
+        list($xml, $access_path, $name) = $xml;
+
+        $base_obj = new Value();
+        $base_obj->depth = $o->depth + 1;
+        $base_obj->name = $name;
+        $base_obj->access_path = $access_path;
+
+        $r = new Representation('XML');
+        $r->contents = $this->parser->parse($xml, $base_obj);
+
+        $o->addRepresentation($r, 0);
+    }
+
     protected static function xmlToSimpleXML($var, $parent_path)
     {
         try {
@@ -108,50 +147,11 @@ class XmlPlugin extends Plugin
         if (null === $parent_path) {
             $access_path = null;
         } else {
-            $access_path = '(function($s){$x = new \\DomDocument(); $x->loadXML($s); return $x;})(' . $parent_path . ')->' . $access_path;
+            $access_path = '(function($s){$x = new \\DomDocument(); $x->loadXML($s); return $x;})('.$parent_path.')->'.$access_path;
         }
 
         $name = isset($xml->nodeName) ? $xml->nodeName : null;
 
         return [$xml, $access_path, $name];
-    }
-
-    public function getTypes()
-    {
-        return ['string'];
-    }
-
-    public function getTriggers()
-    {
-        return Parser::TRIGGER_SUCCESS;
-    }
-
-    public function parse(&$var, Value &$o, $trigger)
-    {
-        if ('<?xml' !== \substr($var, 0, 5)) {
-            return;
-        }
-
-        if (!\method_exists(\get_class($this), 'xmlTo' . self::$parse_method)) {
-            return;
-        }
-
-        $xml = \call_user_func([\get_class($this), 'xmlTo' . self::$parse_method], $var, $o->access_path);
-
-        if (empty($xml)) {
-            return;
-        }
-
-        list($xml, $access_path, $name) = $xml;
-
-        $base_obj = new Value();
-        $base_obj->depth = $o->depth + 1;
-        $base_obj->name = $name;
-        $base_obj->access_path = $access_path;
-
-        $r = new Representation('XML');
-        $r->contents = $this->parser->parse($xml, $base_obj);
-
-        $o->addRepresentation($r, 0);
     }
 }

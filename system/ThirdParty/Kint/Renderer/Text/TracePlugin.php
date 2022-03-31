@@ -35,10 +35,10 @@ class TracePlugin extends Plugin
         $out = '';
 
         if (0 == $o->depth) {
-            $out .= $this->renderer->colorTitle($this->renderer->renderTitle($o)) . PHP_EOL;
+            $out .= $this->renderer->colorTitle($this->renderer->renderTitle($o)).PHP_EOL;
         }
 
-        $out .= $this->renderer->renderHeader($o) . ':' . PHP_EOL;
+        $out .= $this->renderer->renderHeader($o).':'.PHP_EOL;
 
         $indent = \str_repeat(' ', ($o->depth + 1) * $this->renderer->indent_width);
 
@@ -65,10 +65,10 @@ class TracePlugin extends Plugin
             }
 
             if (\is_string($frame->trace['function'])) {
-                $framedesc .= $this->renderer->escape($frame->trace['function']) . '(...)';
+                $framedesc .= $this->renderer->escape($frame->trace['function']).'(...)';
             } elseif ($frame->trace['function'] instanceof MethodValue) {
                 $framedesc .= $this->renderer->escape($frame->trace['function']->getName());
-                $framedesc .= '(' . $this->renderer->escape($frame->trace['function']->getParams()) . ')';
+                $framedesc .= '('.$this->renderer->escape($frame->trace['function']->getParams()).')';
             }
 
             $out .= $this->renderer->colorType($framedesc).PHP_EOL.PHP_EOL;

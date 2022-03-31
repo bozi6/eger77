@@ -35,14 +35,6 @@ class MicrotimePlugin extends Plugin
     private static $times = 0;
     private static $group = 0;
 
-    public static function clean()
-    {
-        self::$last = null;
-        self::$start = null;
-        self::$times = 0;
-        ++self::$group;
-    }
-
     public function getTypes()
     {
         return ['string', 'double'];
@@ -101,5 +93,13 @@ class MicrotimePlugin extends Plugin
         $o->removeRepresentation($o->value);
         $o->addRepresentation($r);
         $o->hints[] = 'microtime';
+    }
+
+    public static function clean()
+    {
+        self::$last = null;
+        self::$start = null;
+        self::$times = 0;
+        ++self::$group;
     }
 }

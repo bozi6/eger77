@@ -35,8 +35,12 @@ class ClosureValue extends InstanceValue
     public function getAccessPath()
     {
         if (null !== $this->access_path) {
-            return parent::getAccessPath() . '(' . $this->getParams() . ')';
+            return parent::getAccessPath().'('.$this->getParams().')';
         }
+    }
+
+    public function getSize()
+    {
     }
 
     public function getParams()
@@ -53,16 +57,12 @@ class ClosureValue extends InstanceValue
             $ref = $p->reference ? '&' : '';
 
             if ($type) {
-                $out[] = $type . ' ' . $ref . $p->getName();
+                $out[] = $type.' '.$ref.$p->getName();
             } else {
-                $out[] = $ref . $p->getName();
+                $out[] = $ref.$p->getName();
             }
         }
 
         return $this->paramcache = \implode(', ', $out);
-    }
-
-    public function getSize()
-    {
     }
 }

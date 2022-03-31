@@ -41,11 +41,11 @@ class ClosurePlugin extends Plugin implements ValuePluginInterface
             $header = '';
 
             if (null !== ($s = $o->getModifiers())) {
-                $header .= '<var>' . $s . '</var> ';
+                $header .= '<var>'.$s.'</var> ';
             }
 
             if (null !== ($s = $o->getName())) {
-                $header .= '<dfn>' . $this->renderer->escape($s) . '(' . $this->renderer->escape($o->getParams()) . ')</dfn> ';
+                $header .= '<dfn>'.$this->renderer->escape($s).'('.$this->renderer->escape($o->getParams()).')</dfn> ';
             }
 
             $header .= '<var>Closure</var> ';

@@ -35,26 +35,6 @@ class ClassMethodsPlugin extends Plugin
 {
     private static $cache = [];
 
-    private static function sort(MethodValue $a, MethodValue $b)
-    {
-        $sort = ((int)$a->static) - ((int)$b->static);
-        if ($sort) {
-            return $sort;
-        }
-
-        $sort = Value::sortByAccess($a, $b);
-        if ($sort) {
-            return $sort;
-        }
-
-        $sort = InstanceValue::sortByHierarchy($a->owner_class, $b->owner_class);
-        if ($sort) {
-            return $sort;
-        }
-
-        return $a->startline - $b->startline;
-    }
-
     public function getTypes()
     {
         return ['object'];
@@ -109,5 +89,25 @@ class ClassMethodsPlugin extends Plugin
 
             $o->addRepresentation($rep);
         }
+    }
+
+    private static function sort(MethodValue $a, MethodValue $b)
+    {
+        $sort = ((int) $a->static) - ((int) $b->static);
+        if ($sort) {
+            return $sort;
+        }
+
+        $sort = Value::sortByAccess($a, $b);
+        if ($sort) {
+            return $sort;
+        }
+
+        $sort = InstanceValue::sortByHierarchy($a->owner_class, $b->owner_class);
+        if ($sort) {
+            return $sort;
+        }
+
+        return $a->startline - $b->startline;
     }
 }

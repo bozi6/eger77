@@ -243,7 +243,7 @@ class CallFinder
                     continue;
                 }
 
-                /** @var array{int, string, int} $prev_tokens [0] */
+                /** @var array{int, string, int} $prev_tokens[0] */
                 // All self::$namespace tokens are T_ constants
                 $ns = \explode('\\', \strtolower($prev_tokens[0][1]));
 
@@ -417,6 +417,58 @@ class CallFinder
         return null;
     }
 
+    /**
+     * We need a separate method to check if tokens are operators because we
+     * occasionally add "..." to short parameter versions. If we simply check
+     * for `$token[0]` then "..." will incorrectly match the "." operator.
+     *
+     * @param array|string $token The token to check
+     *
+     * @return bool
+     */
+    private static function tokenIsOperator($token)
+    {
+        return '...' !== $token && isset(self::$operator[$token[0]]);
+    }
+
+    private static function tokensToString(array $tokens)
+    {
+        $out = '';
+
+        foreach ($tokens as $token) {
+            if (\is_string($token)) {
+                $out .= $token;
+            } elseif (\is_array($token)) {
+                $out .= $token[1];
+            }
+        }
+
+        return $out;
+    }
+
+    private static function tokensTrim(array $tokens)
+    {
+        foreach ($tokens as $index => $token) {
+            if (isset(self::$ignore[$token[0]])) {
+                unset($tokens[$index]);
+            } else {
+                break;
+            }
+        }
+
+        $tokens = \array_reverse($tokens);
+
+        foreach ($tokens as $index => $token) {
+            if (isset(self::$ignore[$token[0]])) {
+                unset($tokens[$index]);
+            } else {
+                break;
+            }
+        }
+
+        return \array_reverse($tokens);
+    }
+
     private static function tokensFormatted(array $tokens)
     {
         $space = false;
@@ -461,57 +513,5 @@ class CallFinder
         }
 
         return $output;
-    }
-
-    private static function tokensTrim(array $tokens)
-    {
-        foreach ($tokens as $index => $token) {
-            if (isset(self::$ignore[$token[0]])) {
-                unset($tokens[$index]);
-            } else {
-                break;
-            }
-        }
-
-        $tokens = \array_reverse($tokens);
-
-        foreach ($tokens as $index => $token) {
-            if (isset(self::$ignore[$token[0]])) {
-                unset($tokens[$index]);
-            } else {
-                break;
-            }
-        }
-
-        return \array_reverse($tokens);
-    }
-
-    /**
-     * We need a separate method to check if tokens are operators because we
-     * occasionally add "..." to short parameter versions. If we simply check
-     * for `$token[0]` then "..." will incorrectly match the "." operator.
-     *
-     * @param array|string $token The token to check
-     *
-     * @return bool
-     */
-    private static function tokenIsOperator($token)
-    {
-        return '...' !== $token && isset(self::$operator[$token[0]]);
-    }
-
-    private static function tokensToString(array $tokens)
-    {
-        $out = '';
-
-        foreach ($tokens as $token) {
-            if (\is_string($token)) {
-                $out .= $token;
-            } elseif (\is_array($token)) {
-                $out .= $token[1];
-            }
-        }
-
-        return $out;
     }
 }

@@ -89,7 +89,7 @@ final class Utils
 
     public static function isAssoc(array $array)
     {
-        return (bool)\count(\array_filter(\array_keys($array), 'is_string'));
+        return (bool) \count(\array_filter(\array_keys($array), 'is_string'));
     }
 
     public static function composerGetExtras($key = 'kint')
@@ -240,7 +240,7 @@ final class Utils
 
     public static function truncateString($input, $length = PHP_INT_MAX, $end = '...', $encoding = false)
     {
-        $length = (int)$length;
+        $length = (int) $length;
         $endlength = BlobValue::strlen($end);
 
         if ($endlength >= $length) {
@@ -249,7 +249,7 @@ final class Utils
         }
 
         if (BlobValue::strlen($input, $encoding) > $length) {
-            return BlobValue::substr($input, 0, $length - $endlength, $encoding) . $end;
+            return BlobValue::substr($input, 0, $length - $endlength, $encoding).$end;
         }
 
         return $input;
@@ -260,7 +260,7 @@ final class Utils
         if ($type instanceof ReflectionNamedType) {
             $name = $type->getName();
             if ($type->allowsNull() && false === \strpos($name, '|')) {
-                $name = '?' . $name;
+                $name = '?'.$name;
             }
 
             return $name;

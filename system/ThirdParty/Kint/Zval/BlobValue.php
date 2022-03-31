@@ -80,6 +80,35 @@ class BlobValue extends Value
     public $encoding = false;
     public $hints = ['string'];
 
+    public function getType()
+    {
+        if (false === $this->encoding) {
+            return 'binary '.$this->type;
+        }
+
+        if ('ASCII' === $this->encoding) {
+            return $this->type;
+        }
+
+        return $this->encoding.' '.$this->type;
+    }
+
+    public function getValueShort()
+    {
+        if ($rep = $this->value) {
+            return '"'.$rep->contents.'"';
+        }
+    }
+
+    public function transplant(Value $old)
+    {
+        parent::transplant($old);
+
+        if ($old instanceof self) {
+            $this->encoding = $old->encoding;
+        }
+    }
+
     public static function strlen($string, $encoding = false)
     {
         if (\function_exists('mb_strlen')) {
@@ -93,6 +122,26 @@ class BlobValue extends Value
         }
 
         return \strlen($string);
+    }
+
+    public static function substr($string, $start, $length = null, $encoding = false)
+    {
+        if (\function_exists('mb_substr')) {
+            if (false === $encoding) {
+                $encoding = self::detectEncoding($string);
+            }
+
+            if ($encoding && 'ASCII' !== $encoding) {
+                return \mb_substr($string, $start, $length, $encoding);
+            }
+        }
+
+        // Special case for substr/mb_substr discrepancy
+        if ('' === $string) {
+            return '';
+        }
+
+        return \substr($string, $start, isset($length) ? $length : PHP_INT_MAX);
     }
 
     public static function detectEncoding($string)
@@ -124,54 +173,5 @@ class BlobValue extends Value
         }
 
         return false;
-    }
-
-    public static function substr($string, $start, $length = null, $encoding = false)
-    {
-        if (\function_exists('mb_substr')) {
-            if (false === $encoding) {
-                $encoding = self::detectEncoding($string);
-            }
-
-            if ($encoding && 'ASCII' !== $encoding) {
-                return \mb_substr($string, $start, $length, $encoding);
-            }
-        }
-
-        // Special case for substr/mb_substr discrepancy
-        if ('' === $string) {
-            return '';
-        }
-
-        return \substr($string, $start, isset($length) ? $length : PHP_INT_MAX);
-    }
-
-    public function getType()
-    {
-        if (false === $this->encoding) {
-            return 'binary ' . $this->type;
-        }
-
-        if ('ASCII' === $this->encoding) {
-            return $this->type;
-        }
-
-        return $this->encoding . ' ' . $this->type;
-    }
-
-    public function getValueShort()
-    {
-        if ($rep = $this->value) {
-            return '"' . $rep->contents . '"';
-        }
-    }
-
-    public function transplant(Value $old)
-    {
-        parent::transplant($old);
-
-        if ($old instanceof self) {
-            $this->encoding = $old->encoding;
-        }
     }
 }

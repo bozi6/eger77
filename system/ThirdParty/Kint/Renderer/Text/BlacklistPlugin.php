@@ -34,10 +34,10 @@ class BlacklistPlugin extends Plugin
         $out = '';
 
         if (0 == $o->depth) {
-            $out .= $this->renderer->colorTitle($this->renderer->renderTitle($o)) . PHP_EOL;
+            $out .= $this->renderer->colorTitle($this->renderer->renderTitle($o)).PHP_EOL;
         }
 
-        $out .= $this->renderer->renderHeader($o) . ' ' . $this->renderer->colorValue('BLACKLISTED') . PHP_EOL;
+        $out .= $this->renderer->renderHeader($o).' '.$this->renderer->colorValue('BLACKLISTED').PHP_EOL;
 
         return $out;
     }

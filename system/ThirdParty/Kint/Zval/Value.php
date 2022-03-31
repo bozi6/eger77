@@ -59,44 +59,23 @@ class Value
     {
     }
 
-    /**
-     * Creates a new basic object with a name and access path.
-     *
-     * @param null|string $name
-     * @param null|string $access_path
-     *
-     * @return \Kint\Zval\Value
-     */
-    public static function blank($name = null, $access_path = null)
+    public function addRepresentation(Representation $rep, $pos = null)
     {
-        $o = new self();
-        $o->name = $name;
-        $o->access_path = $access_path;
-
-        return $o;
-    }
-
-    public static function sortByAccess(Value $a, Value $b)
-    {
-        static $sorts = [
-            self::ACCESS_PUBLIC => 1,
-            self::ACCESS_PROTECTED => 2,
-            self::ACCESS_PRIVATE => 3,
-            self::ACCESS_NONE => 4,
-        ];
-
-        return $sorts[$a->access] - $sorts[$b->access];
-    }
-
-    public static function sortByName(Value $a, Value $b)
-    {
-        $ret = \strnatcasecmp($a->name, $b->name);
-
-        if (0 === $ret) {
-            return (int)\is_int($b->name) - (int)\is_int($a->name);
+        if (isset($this->representations[$rep->getName()])) {
+            return false;
         }
 
-        return $ret;
+        if (null === $pos) {
+            $this->representations[$rep->getName()] = $rep;
+        } else {
+            $this->representations = \array_merge(
+                \array_slice($this->representations, 0, $pos),
+                [$rep->getName() => $rep],
+                \array_slice($this->representations, $pos)
+            );
+        }
+
+        return true;
     }
 
     public function replaceRepresentation(Representation $rep, $pos = null)
@@ -116,25 +95,6 @@ class Value
         } elseif (\is_string($rep)) {
             unset($this->representations[$rep]);
         }
-    }
-
-    public function addRepresentation(Representation $rep, $pos = null)
-    {
-        if (isset($this->representations[$rep->getName()])) {
-            return false;
-        }
-
-        if (null === $pos) {
-            $this->representations[$rep->getName()] = $rep;
-        } else {
-            $this->representations = \array_merge(
-                \array_slice($this->representations, 0, $pos),
-                [$rep->getName() => $rep],
-                \array_slice($this->representations, $pos)
-            );
-        }
-
-        return true;
     }
 
     public function getRepresentation($name)
@@ -244,5 +204,45 @@ class Value
         $this->value = $old->value;
         $this->representations += $old->representations;
         $this->hints = \array_merge($this->hints, $old->hints);
+    }
+
+    /**
+     * Creates a new basic object with a name and access path.
+     *
+     * @param null|string $name
+     * @param null|string $access_path
+     *
+     * @return \Kint\Zval\Value
+     */
+    public static function blank($name = null, $access_path = null)
+    {
+        $o = new self();
+        $o->name = $name;
+        $o->access_path = $access_path;
+
+        return $o;
+    }
+
+    public static function sortByAccess(Value $a, Value $b)
+    {
+        static $sorts = [
+            self::ACCESS_PUBLIC => 1,
+            self::ACCESS_PROTECTED => 2,
+            self::ACCESS_PRIVATE => 3,
+            self::ACCESS_NONE => 4,
+        ];
+
+        return $sorts[$a->access] - $sorts[$b->access];
+    }
+
+    public static function sortByName(Value $a, Value $b)
+    {
+        $ret = \strnatcasecmp($a->name, $b->name);
+
+        if (0 === $ret) {
+            return (int) \is_int($b->name) - (int) \is_int($a->name);
+        }
+
+        return $ret;
     }
 }

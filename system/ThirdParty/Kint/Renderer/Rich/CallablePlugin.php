@@ -48,6 +48,54 @@ class CallablePlugin extends Plugin implements ValuePluginInterface
         return $this->renderCallable($o);
     }
 
+    protected function renderClosure(ClosureValue $o)
+    {
+        $children = $this->renderer->renderChildren($o);
+
+        $header = '';
+
+        if (null !== ($s = $o->getModifiers())) {
+            $header .= '<var>'.$s.'</var> ';
+        }
+
+        if (null !== ($s = $o->getName())) {
+            $header .= '<dfn>'.$this->renderer->escape($s).'('.$this->renderer->escape($o->getParams()).')</dfn>';
+        }
+
+        if (null !== ($s = $o->getValueShort())) {
+            if (RichRenderer::$strlen_max) {
+                $s = Utils::truncateString($s, RichRenderer::$strlen_max);
+            }
+            $header .= ' '.$this->renderer->escape($s);
+        }
+
+        return '<dl>'.$this->renderer->renderHeaderWrapper($o, (bool) \strlen($children), $header).$children.'</dl>';
+    }
+
+    protected function renderCallable(Value $o)
+    {
+        $children = $this->renderer->renderChildren($o);
+
+        $header = '';
+
+        if (null !== ($s = $o->getModifiers())) {
+            $header .= '<var>'.$s.'</var> ';
+        }
+
+        if (null !== ($s = $o->getName())) {
+            $header .= '<dfn>'.$this->renderer->escape($s).'</dfn>';
+        }
+
+        if (null !== ($s = $o->getValueShort())) {
+            if (RichRenderer::$strlen_max) {
+                $s = Utils::truncateString($s, RichRenderer::$strlen_max);
+            }
+            $header .= ' '.$this->renderer->escape($s);
+        }
+
+        return '<dl>'.$this->renderer->renderHeaderWrapper($o, (bool) \strlen($children), $header).$children.'</dl>';
+    }
+
     protected function renderMethod(MethodValue $o)
     {
         if (!empty(self::$method_cache[$o->owner_class][$o->name])) {
@@ -55,7 +103,7 @@ class CallablePlugin extends Plugin implements ValuePluginInterface
 
             $header = $this->renderer->renderHeaderWrapper(
                 $o,
-                (bool)\strlen($children),
+                (bool) \strlen($children),
                 self::$method_cache[$o->owner_class][$o->name]['header']
             );
 
@@ -109,7 +157,7 @@ class CallablePlugin extends Plugin implements ValuePluginInterface
             if (RichRenderer::$strlen_max) {
                 $s = Utils::truncateString($s, RichRenderer::$strlen_max);
             }
-            $header .= ' ' . $this->renderer->escape($s);
+            $header .= ' '.$this->renderer->escape($s);
         }
 
         if (\strlen($o->owner_class) && \strlen($o->name)) {
@@ -122,53 +170,5 @@ class CallablePlugin extends Plugin implements ValuePluginInterface
         $header = $this->renderer->renderHeaderWrapper($o, (bool) \strlen($children), $header);
 
         return '<dl>'.$header.$children.'</dl>';
-    }
-
-    protected function renderClosure(ClosureValue $o)
-    {
-        $children = $this->renderer->renderChildren($o);
-
-        $header = '';
-
-        if (null !== ($s = $o->getModifiers())) {
-            $header .= '<var>' . $s . '</var> ';
-        }
-
-        if (null !== ($s = $o->getName())) {
-            $header .= '<dfn>'.$this->renderer->escape($s).'('.$this->renderer->escape($o->getParams()).')</dfn>';
-        }
-
-        if (null !== ($s = $o->getValueShort())) {
-            if (RichRenderer::$strlen_max) {
-                $s = Utils::truncateString($s, RichRenderer::$strlen_max);
-            }
-            $header .= ' ' . $this->renderer->escape($s);
-        }
-
-        return '<dl>'.$this->renderer->renderHeaderWrapper($o, (bool) \strlen($children), $header).$children.'</dl>';
-    }
-
-    protected function renderCallable(Value $o)
-    {
-        $children = $this->renderer->renderChildren($o);
-
-        $header = '';
-
-        if (null !== ($s = $o->getModifiers())) {
-            $header .= '<var>' . $s . '</var> ';
-        }
-
-        if (null !== ($s = $o->getName())) {
-            $header .= '<dfn>'.$this->renderer->escape($s).'</dfn>';
-        }
-
-        if (null !== ($s = $o->getValueShort())) {
-            if (RichRenderer::$strlen_max) {
-                $s = Utils::truncateString($s, RichRenderer::$strlen_max);
-            }
-            $header .= ' ' . $this->renderer->escape($s);
-        }
-
-        return '<dl>'.$this->renderer->renderHeaderWrapper($o, (bool) \strlen($children), $header).$children.'</dl>';
     }
 }
