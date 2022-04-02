@@ -4,9 +4,9 @@
 			<option selected disabled><?= lang('Csoport.csopCsopvalaszt'); ?></option>
 			<option disabled>----</option>
 			<?php
-			foreach ($csoplist as $row) {
-				echo '<option id="' . $row->sorsz . '" value="' . $row->sorsz . '">';
-				echo $row->cegnev;
+			foreach ($csoplist as $egysor) {
+				echo '<option id="' . $egysor->sorsz . '" value="' . $egysor->sorsz . '">';
+				echo $egysor->cegnev;
 				echo "</option>\n";
 			}
 			?>

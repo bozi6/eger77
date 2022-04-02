@@ -113,12 +113,12 @@ class KarModell extends Model
     /**
      * Beléptet / frissít.
      * @param number $ki belepo sorszáma
-     * @param int $mennyit felnőttjegy száma
-     * @param int $gymennyit gyerekjegy száma
+     * @param string $mennyit felnőttjegy száma
+     * @param string $gymennyit gyerekjegy száma
      * @param string $megjegy megjegyzés
      * @return bool TRUE ha minden fasza
      */
-    public function belepett($ki, int $mennyit = 0, int $gymennyit = 0, string $megjegy): bool
+    public function belepett($ki, string $mennyit = "", string $gymennyit = "", string $megjegy = ""): bool
     {
         $this->db->table('karszalagok')
             ->set('szdarab', $mennyit, false)

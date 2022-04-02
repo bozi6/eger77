@@ -53,7 +53,7 @@ $inputdata = array('class' => 'form-control border-0 bg-info text-warning', 'rea
         <div class="form-group col-md-12">
             <?= form_label(lang('Karszalag.karszMegj', [], $nyelv), 'megjegy', $labeldata); ?>
             <input type="text" name="megjegy" class="form-control mt-2" id="megjegy"
-                   placeholder="<?= lang('Karszalag.karszMegj'); ?>">
+                   placeholder="<?= lang('Karszalag.karszMegj', [], $nyelv); ?>">
         </div>
     </div>
     <div class="form-row">
