@@ -1,80 +1,105 @@
-./xlsek/Aranysarkantyús és Aranygyöngyös Szólótáncosok műsora.xls
+./xlsek/0szentendre.xls
+./xlsek/Aranysarkantyús és Aranygyöngyös Szólótáncosok műsora.xls
 ./xlsek/BB Zeneiskola Szombathely tagassag.xls
-./xlsek/BEM Táncegyüttes.xls
-./xlsek/Bartina Néptánc Együttes.xls
-./xlsek/Bartok táncegyüttes.xls
+./xlsek/BEM Táncegyüttes.xls
+./xlsek/Bartina Néptánc Együttes.xls
+./xlsek/Bartok táncegyüttes.xls
 ./xlsek/Berze AMI Pecs Tagassagot.xls
-./xlsek/Bécsiek.xls
-./xlsek/Borostyán Néptáncműhely.xls
+./xlsek/Borostyán Néptáncműhely.xls
+./xlsek/Bécsiek.xls
 ./xlsek/Corvinus.xls
-./xlsek/Csaba Nemzetiségi Néptáncegyüttes.xls
+./xlsek/Csaba Nemzetiségi Néptáncegyüttes.xls
 ./xlsek/Csalad AMI Keszthely Tagassag.xls
-./xlsek/Családban Marad.xls
-./xlsek/Délibáb Bécsi.xls
-./xlsek/Dr Kresz Mária Alapítvány.xls
-./xlsek/ELTE Néptáncegyüttes.xls
-./xlsek/Egyéb.xls
+./xlsek/Csali_THT_NEVSOR.xls
+./xlsek/Családban Marad.xls
+./xlsek/Csobolyo Neptancegyuttes_THT_NEVSOR.xls
+./xlsek/Dr Kresz Mária Alapítvány.xls
+./xlsek/Délibáb Bécsi.xls
+./xlsek/ELTE Néptáncegyüttes.xls
+./xlsek/Egyéb 2.xls
+./xlsek/Egyéb.xls
+./xlsek/Elekiek.xls
+./xlsek/Etalon AMI_THT_NEVSOR.xls
 ./xlsek/Etyeki Nemzetisegi Tagassag.xls
-./xlsek/Ezüstperje néptánccsoport.xls
+./xlsek/Ezüstperje néptánccsoport.xls
 ./xlsek/Finn.xls
 ./xlsek/Harmonia Dunasziget Tagassag.xls
 ./xlsek/Hermann Laszlo AMI Tagassag.xls
-./xlsek/Hiányzó szólisták THT_NEVSOR.xls
+./xlsek/Hiányzó szólisták THT_NEVSOR.xls
 ./xlsek/Hostess.xls
-./xlsek/Hova tovább Fót.xls
-./xlsek/Ilosvai Selymes Péter Néptáncegyüttes.xls
-./xlsek/Jászság Népi Együttes.xls
-./xlsek/Játszó-tér.xls
-./xlsek/Kamasz táncház.xls
-./xlsek/Kárpátalja-Ungvár .xls
-./xlsek/Kisalföld Táncegyüttes névsor.xls
-./xlsek/Kunság Táncegyüttes.xls
-./xlsek/Külföldi Magyar Cserkész.xls
-./xlsek/Levendula Kézműves .xls
-./xlsek/MPT szakosztály aprók másolata.xls
-./xlsek/MTE Hova tovább.xls
-./xlsek/Marcal Tánc és Népművészeti Egyesület Kisérő.xls
-./xlsek/Marcal Tánc és Népművészeti Egyesület.xls
-./xlsek/Matyó Népművészeti Egyesület.xls
-./xlsek/Menyekező ruhák viseletbemutató.xls
-./xlsek/Méhkerékiek.xls
-./xlsek/Muharay Népi Együttes Bag.xls
-./xlsek/Muharay gála szólisták stáb.xls
-./xlsek/Németh András és Tanítványai Aprok.xls
+./xlsek/Hova tovább Fót.xls
+./xlsek/Ilosvai Selymes Péter Néptáncegyüttes.xls
+./xlsek/Jászság Népi Együttes.xls
+./xlsek/Játszó-tér.xls
+./xlsek/Kamasz táncház.xls
+./xlsek/Kapuvar_THT_NEVSOR.xls
+./xlsek/Kisalfold Tancegyuttes nevsor.xls
+./xlsek/Kisalföld Táncegyüttes névsor.xls
+./xlsek/Kopic-Gencsapati_THT_NEVSOR.xls
+./xlsek/Kormend-Partium_THT_NEVSOR 2-1.xls
+./xlsek/Kortanc.ami.zalaegerszeg_THT_NEVSOR.xls
+./xlsek/Kunság Táncegyüttes.xls
+./xlsek/Kárpátalja-Ungvár .xls
+./xlsek/Külföldi Magyar Cserkész.xls
+./xlsek/Levendula Kézműves .xls
+./xlsek/Lippento_THT_NEVSOR_Lippento_v2.xls
+./xlsek/MPT szakosztály aprók másolata.xls
+./xlsek/MTE Hova tovább.xls
+./xlsek/Marcal TE__THT_NEVSOR VEGLEGES.xls
+./xlsek/Marcal Tánc és Népművészeti Egyesület Kisérő.xls
+./xlsek/Marcal Tánc és Népművészeti Egyesület.xls
+./xlsek/Matyó Népművészeti Egyesület.xls
+./xlsek/Menyekező ruhák viseletbemutató.xls
+./xlsek/Muharay Népi Együttes Bag.xls
+./xlsek/Muharay gála szólisták stáb.xls
+./xlsek/Méhkerékiek.xls
+./xlsek/Nagykanizsa-Szikrak_THT_NEVSOR.xls
+./xlsek/Nagymegyer_THT_NEVSOR.xls
+./xlsek/Németh András és Tanítványai Aprok.xls
 ./xlsek/Ordongos Tagassag.xls
 ./xlsek/PANNONIA .xls
-./xlsek/Pécskai Búzavirág .xls
-./xlsek/Pondöly Néptáncegyüttes Komló.xls
+./xlsek/Pantlika-Csorna_bianco_THT_NEVSOR.xls
+./xlsek/Pondöly Néptáncegyüttes Komló.xls
 ./xlsek/Pro Artis Paks.xls
-./xlsek/Püspökhatvani Népi Együttes.xls
+./xlsek/Pécskai Búzavirág .xls
+./xlsek/Pöndöly.xls
+./xlsek/Püspökhatvani Népi Együttes.xls
+./xlsek/Regos_THT_Regos.xls
 ./xlsek/Remenyik Tagassag.xls
-./xlsek/Ruzsmalint Hagyományőrző Együttes.xls
+./xlsek/Remenyik_tanar-fellepo_THT_NEVSOR.xls
+./xlsek/Ruzsmalint Hagyományőrző Együttes.xls
 ./xlsek/SARARANY.xls
 ./xlsek/Sajnovics Tordas Tagassag.xls
+./xlsek/Sopron_THT_NEVSOR.xls
 ./xlsek/Sultu Zenekar Benko Andras.xls
-./xlsek/Szilas Aprók.xls
+./xlsek/Szany__THT_NEVSOR.xls
+./xlsek/Szil_THT_NEVSOR.xls
+./xlsek/Szilas Aprók.xls
+./xlsek/Szolista_Etalon_THT_NEVSOR (1).xls
+./xlsek/Szolistak_Csalad Iskola Neptanc 2019 THT_NEVSOR.xls
 ./xlsek/THT-2019-forgatos.xls
 ./xlsek/THT-Lajta.xls
 ./xlsek/THT_NEVSOR_Lippento_v3.xls
-./xlsek/Veresegyházi Népi Együttes.xls
+./xlsek/Urban Verbunk.xls
+./xlsek/Veresegyházi Népi Együttes.xls
+./xlsek/Vitnyed_THT_NEVSOR.xls
 ./xlsek/Zalai.xls
-./xlsek/Zenész2.xls
 ./xlsek/Zengo Pecs Tagassag.xls
-./xlsek/angyalföldi vadrózsa.xls
-./xlsek/angyalföldi vadvirág.xls
-./xlsek/árendás GYTE.xls
-./xlsek/debreceni hajdú.xls
+./xlsek/Zenész2.xls
+./xlsek/angyalföldi vadrózsa.xls
+./xlsek/angyalföldi vadvirág.xls
+./xlsek/boglyazenekar_THT_NEVSOR.xls
+./xlsek/debreceni hajdú.xls
+./xlsek/drpesovarami szolo_THT_NEVSOR.xls
+./xlsek/drpesovarami_THT_NEVSOR.xls
 ./xlsek/gyimes moldva.xls
 ./xlsek/hagyomany es tudomany MTA.xls
-./xlsek/hagyomany_es_tudomany_tht_2019-NÉPRAJZI TÁRSASÁG.xls
-./xlsek/szólisták.xls
-./xlsek/üres.xls
-./xlsek/válaszút.xls
+./xlsek/hagyomany_es_tudomany_tht_2019-NÉPRAJZI TÁRSASÁG.xls
+./xlsek/szólisták.xls
+./xlsek/veszprém.xls
+./xlsek/válaszút.xls
 ./xlsek/zagyvabanda.xls
 ./xlsek/zselyk.xls
-./xlsek/Egyéb 2.xls
-./xlsek/Elekiek.xls
-./xlsek/Urban Verbunk.xls
-./xlsek/0szentendre.xls
-./xlsek/veszprém.xls
-./xlsek/zürichi.xls
+./xlsek/zürichi.xls
+./xlsek/árendás GYTE.xls
+./xlsek/üres.xls
